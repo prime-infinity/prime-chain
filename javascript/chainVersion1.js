@@ -44,11 +44,22 @@ class Chain {
   createGenesisBlock() {
     return new Block(0, { amount: 4 }, 0);
   }
+
+  getPreviousBlock() {
+    return this.chain[this.chain.length - 1];
+  }
+
+  addBlock(data) {
+    let newBlock = new Block(
+      this.getPreviousBlock().index + 1,
+      data,
+      this.getPreviousBlock().hash
+    );
+    this.chain.push(newBlock);
+  }
 }
 
 let chain = new Chain();
-console.log(chain);
-
-//let blockOne = new Block(0, { amount: 4 }, 0);
-
-//console.log(blockOne);
+chain.addBlock({ amount: 3, water: false });
+chain.addBlock({ amount: 14, water: true, isValid: true });
+console.log(chain.chain);
