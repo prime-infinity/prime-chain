@@ -35,6 +35,20 @@ class Block {
   }
 }
 
-let blockOne = new Block(0, { amount: 4 }, 0);
+//next, we create the chain class
+class Chain {
+  constructor() {
+    this.chain = [this.createGenesisBlock()];
+  }
 
-console.log(blockOne);
+  createGenesisBlock() {
+    return new Block(0, { amount: 4 }, 0);
+  }
+}
+
+let chain = new Chain();
+console.log(chain);
+
+//let blockOne = new Block(0, { amount: 4 }, 0);
+
+//console.log(blockOne);
