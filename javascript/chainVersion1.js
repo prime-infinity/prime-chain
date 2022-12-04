@@ -50,6 +50,13 @@ class Chain {
   }
 
   addBlock(data) {
+    /**
+     * this could be done in another way,
+     * where the block is instantiated outside
+     * the chain and the instance of the block is
+     * passed as an arguement, but i'd argue that
+     * would offer less control
+     */
     let newBlock = new Block(
       this.getPreviousBlock().index + 1,
       data,
@@ -57,9 +64,26 @@ class Chain {
     );
     this.chain.push(newBlock);
   }
+
+  isValid() {
+    for (let i = 1; i < this.chain.length; i++) {
+      const currentBlock = this.chain[i];
+      const previousBlock = this.chain[i - 1];
+
+      if (currentBlock.hash !== currentBlock.calculateHash()) {
+        return false;
+      }
+
+      if (currentBlock.previousHash !== previousBlock.hash) {
+        return false;
+      }
+      return true;
+    }
+  }
 }
 
 let chain = new Chain();
 chain.addBlock({ amount: 3, water: false });
 chain.addBlock({ amount: 14, water: true, isValid: true });
 console.log(chain.chain);
+console.log(chain.isValid());
