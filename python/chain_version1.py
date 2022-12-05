@@ -23,5 +23,28 @@ class Block:
         return {"index": self.index, "timestamp": self.timestamp, "data": self.data, "previous_hash": self.previous_hash, "hash": self.hash}
 
 
-block_one = Block(1, {"amount": 4}, 0)
-print(block_one.show_block())
+class Chain:
+    def __init__(self):
+        self.chain = [self.create_genesis_chain()]
+
+    def show_block(self):
+        for block in self.chain:
+            print({"index": block.index, "timestamp": block.timestamp, "data": block.data,
+                  "previous hash": block.previous_hash, "hash": block.hash})
+
+    def get_previous_block(self):
+        return self.chain[-1]
+
+    def add_block(self, data):
+        new_block = Block(self.get_previous_block().index + 1,
+                          data, self.get_previous_block().hash)
+        self.chain.append(new_block)
+
+    def create_genesis_chain(self):
+        return Block(0, {"amount": 4}, 0)
+
+
+chain = Chain()
+chain.add_block({"amount": 3, "valid": True})
+chain.add_block({"amount": 11, "valid": True, "water": "yes"})
+chain.show_block()
