@@ -2,6 +2,8 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -16,8 +18,8 @@ type Block struct {
 //using a receiver function to mimik a method
 func (b Block) returnHash() string {
 	realHashed := sha256.Sum256([]byte(b.timestamp + strconv.Itoa(b.index)))
-	//fmt.Printf("%x", realHashed)
-	return string(realHashed)
+	return hex.EncodeToString(realHashed[:])
+
 }
 func main() {
 	currentTime := time.Now()
@@ -32,6 +34,6 @@ func main() {
 		previousHash: "0",
 	}
 	blockOne.hash = blockOne.returnHash()
-	//fmt.Print(blockOne)
+	fmt.Print(blockOne)
 
 }
