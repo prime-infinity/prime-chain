@@ -36,6 +36,25 @@ func (c *Chain) addBlock(b Block) {
 	c.chain = append(c.chain, b)
 }
 
+func (c Chain) isValid() bool {
+	for i, _ := range c.chain {
+		if i == 0 {
+			continue
+		}
+
+		currentBlock := c.chain[i]
+		previousBlock := c.chain[i-1]
+
+		if currentBlock.hash != currentBlock.returnHash() {
+			return false
+		}
+		if currentBlock.previousHash != previousBlock.hash {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	currentTime := time.Now()
 	today := currentTime.Format("02/01/2006")
@@ -65,5 +84,5 @@ func main() {
 		fmt.Printf("PrevHash: %s\n", block.previousHash)
 		fmt.Println()
 	}
-
+	fmt.Println(chain.isValid())
 }
